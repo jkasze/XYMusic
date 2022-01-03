@@ -13,9 +13,8 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
-        getTopMV(0).then(res => {
-            this.setData({ topMVs: res.data.data })
-        })
+    onLoad: async function (options) {
+        const res = await getTopMV(0)
+        this.setData({ topMVs: res.data })
     },
 })
