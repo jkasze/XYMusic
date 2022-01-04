@@ -46,6 +46,16 @@ Page({
         this.setData({ hasMore: res.hasMore })
     },
 
+    // 封装事件处理的方法
+    handleVideoItemClick: function(event) {
+        // 获取id
+        const id = event.currentTatget.dataset.item.id
+        // 页面跳转
+        wx.navigateTo({
+            url: '/pages/detail-video/index?id=${id}'
+        })
+    },
+
     // 其他的生命周期回调函数
     onPullDownRefresh: async function() {
         this.getTopMVData(0)
