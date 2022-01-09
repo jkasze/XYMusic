@@ -1,4 +1,4 @@
-// pages/home-music/index.js
+// pages/detail-search/index.js
 Page({
 
     /**
@@ -8,11 +8,6 @@ Page({
 
     },
 
-    handleSearchClick: function() {
-        wx.navigateTo({
-            url: '/pages/detail-search/index'
-        })
-    },
     /**
      * 生命周期函数--监听页面加载
      */
