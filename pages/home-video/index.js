@@ -49,10 +49,10 @@ Page({
     // 封装事件处理的方法
     handleVideoItemClick: function(event) {
         // 获取id
-        const id = event.currentTatget.dataset.item.id
+        const id = event.currentTarget.dataset.item.id
         // 页面跳转
         wx.navigateTo({
-            url: '/pages/detail-video/index?id=${id}'
+            url: '/pages/detail-video/index?id=' + id
         })
     },
 
