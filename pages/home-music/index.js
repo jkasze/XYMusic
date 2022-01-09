@@ -1,5 +1,6 @@
 // pages/home-music/index.js
 import { getBanners } from '../../service/api_music'
+import queryRect from '../../utils/query-rect'
 Page({
 
     /**
@@ -34,12 +35,11 @@ Page({
 
     handleSwiperImageLoaded: function() {
         // 获取图片组件的高度
-        const query = wx.createSelectorQuery()
-        query.select('.swiper-image').boundingClientRect()
-        query.exec((res) => {
+        queryRect(".swiper-image").then(res => {
             const rect =res[0]
             this.setData({ swiperHeight: rect.height })
         })
+        
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
