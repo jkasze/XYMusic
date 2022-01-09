@@ -1,6 +1,10 @@
 // pages/home-music/index.js
 import { getBanners } from '../../service/api_music'
 import queryRect from '../../utils/query-rect'
+import throttle from '../../utils/throttle'
+
+const throttleQueryRect = throttle(queryRect)
+
 Page({
 
     /**
@@ -35,8 +39,8 @@ Page({
 
     handleSwiperImageLoaded: function() {
         // 获取图片组件的高度
-        queryRect(".swiper-image").then(res => {
-            const rect =res[0]
+        throttleQueryRect(".swiper-image").then(res => {
+            const rect = res[0]
             this.setData({ swiperHeight: rect.height })
         })
         
