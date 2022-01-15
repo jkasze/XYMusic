@@ -12,6 +12,7 @@
 <swiper class="swiper"
         indicator-dots
         autoplay
+        referrer-policy="origin"
         circular
         style="height: {{swiperHeight}}px;"
         >
