@@ -6,6 +6,6 @@
         <view class="source">{{item.ar[0].name}} · {{item.al.name}}</view>
     </view>
     <view class="arrow">
-        
+        <image class="icon" src="/assets/images/icons/arrow-right.png"></image>
     </view>
 </view>

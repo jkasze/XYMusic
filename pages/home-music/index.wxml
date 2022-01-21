@@ -32,7 +32,7 @@
     <area-header title="推荐歌曲"></area-header>
     <view class="song-list">
         <block wx:for="{{recommendSongs}}" wx:key="id">
-            <view>{{item.name}}</view>
+            <song-item-v1 item="{{item}}"></song-item-v1>
         </block>
     </view>
 </view>
