@@ -1,8 +1,8 @@
-import { HYEventStore } from "hy-event-store"
+import { XYEventStore } from "../event_store/index"
 
 import { getRankings  } from "../service/api_music"
 
-const rankingStore = new HYEventStore({
+const rankingStore = new XYEventStore({
     state: {
         hotRanking: {}
     },

@@ -9,8 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vant/weapp": "^1.10.1",
-    "hy-event-store": "^1.2.0"
+    "@vant/weapp": "^1.10.1"
   },
   "description": ""
 }
