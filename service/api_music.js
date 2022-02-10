@@ -8,7 +8,15 @@ export function getBanners() {
 
 
 export function getRankings(idx) {
-    return xyRequest.get("/top/list", {
-        idx
-    })
+  return xyRequest.get("/top/list", {
+    idx
+  })
+}
+
+export function getSongMenu(cat="全部", limit=6, offset=0) {
+  return xyRequest.get("/top/playlist", {
+    cat,
+    limit,
+    offset
+  })
 }
