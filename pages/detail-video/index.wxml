@@ -1,10 +1,6 @@
 <!--pages/detail-video/index.wxml-->
-<video  class="video" 
-        src="{{mvURLInfo.url}}"
-        autoplay
-        loop>
-</video>
+<video class="video" src="{{ mvURLInfo.url }}" autoplay loop></video>
 
-<block wx:for="{{100}}" wx:key="*this">
-    <view>{{relatedVideos[item].title}}</view>
+<block wx:for="{{ 100 }}" wx:key="*this">
+  <view>{{ relatedVideos[item].title }}</view>
 </block>

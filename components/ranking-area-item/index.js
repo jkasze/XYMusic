@@ -6,8 +6,8 @@ Component({
   properties: {
     item: {
       type: Object,
-      value: {},
-    },
+      value: {}
+    }
   },
 
   /**
@@ -18,5 +18,5 @@ Component({
   /**
    * 组件的方法列表
    */
-  methods: {},
-});
+  methods: {}
+})

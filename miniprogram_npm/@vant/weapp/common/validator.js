@@ -1,43 +1,52 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.isVideoUrl = exports.isImageUrl = exports.isBoolean = exports.isNumber = exports.isObj = exports.isDef = exports.isPromise = exports.isPlainObject = exports.isFunction = void 0;
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.isVideoUrl =
+  exports.isImageUrl =
+  exports.isBoolean =
+  exports.isNumber =
+  exports.isObj =
+  exports.isDef =
+  exports.isPromise =
+  exports.isPlainObject =
+  exports.isFunction =
+    void 0
 // eslint-disable-next-line @typescript-eslint/ban-types
 function isFunction(val) {
-    return typeof val === 'function';
+  return typeof val === 'function'
 }
-exports.isFunction = isFunction;
+exports.isFunction = isFunction
 function isPlainObject(val) {
-    return val !== null && typeof val === 'object' && !Array.isArray(val);
+  return val !== null && typeof val === 'object' && !Array.isArray(val)
 }
-exports.isPlainObject = isPlainObject;
+exports.isPlainObject = isPlainObject
 function isPromise(val) {
-    return isPlainObject(val) && isFunction(val.then) && isFunction(val.catch);
+  return isPlainObject(val) && isFunction(val.then) && isFunction(val.catch)
 }
-exports.isPromise = isPromise;
+exports.isPromise = isPromise
 function isDef(value) {
-    return value !== undefined && value !== null;
+  return value !== undefined && value !== null
 }
-exports.isDef = isDef;
+exports.isDef = isDef
 function isObj(x) {
-    var type = typeof x;
-    return x !== null && (type === 'object' || type === 'function');
+  var type = typeof x
+  return x !== null && (type === 'object' || type === 'function')
 }
-exports.isObj = isObj;
+exports.isObj = isObj
 function isNumber(value) {
-    return /^\d+(\.\d+)?$/.test(value);
+  return /^\d+(\.\d+)?$/.test(value)
 }
-exports.isNumber = isNumber;
+exports.isNumber = isNumber
 function isBoolean(value) {
-    return typeof value === 'boolean';
+  return typeof value === 'boolean'
 }
-exports.isBoolean = isBoolean;
-var IMAGE_REGEXP = /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i;
-var VIDEO_REGEXP = /\.(mp4|mpg|mpeg|dat|asf|avi|rm|rmvb|mov|wmv|flv|mkv)/i;
+exports.isBoolean = isBoolean
+var IMAGE_REGEXP = /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i
+var VIDEO_REGEXP = /\.(mp4|mpg|mpeg|dat|asf|avi|rm|rmvb|mov|wmv|flv|mkv)/i
 function isImageUrl(url) {
-    return IMAGE_REGEXP.test(url);
+  return IMAGE_REGEXP.test(url)
 }
-exports.isImageUrl = isImageUrl;
+exports.isImageUrl = isImageUrl
 function isVideoUrl(url) {
-    return VIDEO_REGEXP.test(url);
+  return VIDEO_REGEXP.test(url)
 }
-exports.isVideoUrl = isVideoUrl;
+exports.isVideoUrl = isVideoUrl

@@ -1,19 +1,17 @@
 /* eslint-disable */
-var style = require('../wxs/style.wxs');
-var addUnit = require('../wxs/add-unit.wxs');
+var style = require('../wxs/style.wxs')
+var addUnit = require('../wxs/add-unit.wxs')
 
 function wrapperStyle(data) {
-  var width = 100 / data.columnNum + '%';
+  var width = 100 / data.columnNum + '%'
 
   return style({
     width: width,
     'padding-top': data.square ? width : null,
     'padding-right': addUnit(data.gutter),
     'margin-top':
-      data.index >= data.columnNum && !data.square
-        ? addUnit(data.gutter)
-        : null,
-  });
+      data.index >= data.columnNum && !data.square ? addUnit(data.gutter) : null
+  })
 }
 
 function contentStyle(data) {
@@ -21,12 +19,12 @@ function contentStyle(data) {
     ? style({
         right: addUnit(data.gutter),
         bottom: addUnit(data.gutter),
-        height: 'auto',
+        height: 'auto'
       })
-    : '';
+    : ''
 }
 
 module.exports = {
   wrapperStyle: wrapperStyle,
-  contentStyle: contentStyle,
-};
+  contentStyle: contentStyle
+}

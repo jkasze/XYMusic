@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": ".eslintrc.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -11,5 +12,8 @@
   "dependencies": {
     "@vant/weapp": "^1.10.1"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  }
 }
