@@ -18,8 +18,10 @@ const rankingStore = new XYEventStore({
   actions: {
     getRankingDataAction(ctx) {
       for (let i = 0; i < 4; i++) {
-        const rankingName = rankingMap[i]
-        ctx[rankingName] = res.playlist
+        getRankings(i).then(res => {
+          const rankingName = rankingMap[i]
+          ctx[rankingName] = res.playlist
+        }) 
       }
     },
   },
