@@ -1,0 +1,4 @@
+/* pages/detail-pages/index.wxss */
+page {
+  padding: 0 30rpx;
+}

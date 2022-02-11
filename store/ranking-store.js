@@ -27,4 +27,7 @@ const rankingStore = new XYEventStore({
   }
 })
 
-export { rankingStore }
+export { 
+  rankingStore,
+  rankingMap
+}

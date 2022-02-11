@@ -1,3 +1,6 @@
-import { rankingStore } from './ranking-store'
+import { rankingStore, rankingMap } from './ranking-store'
 
-export { rankingStore }
+export { 
+  rankingStore,
+  rankingMap
+}

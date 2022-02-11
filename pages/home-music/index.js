@@ -1,5 +1,5 @@
 // pages/home-music/index.js
-import { rankingStore } from '../../store/ranking-store'
+import { rankingStore, rankingMap } from '../../store/index'
 
 import { getBanners, getSongMenu } from '../../service/api_music'
 import queryRect from '../../utils/query-rect'
@@ -71,11 +71,24 @@ Page({
     })
   },
 
+  handleMoreClick: function () {
+    this.navigateToDetailSongsPage('hotRanking')
+  },
+  handleRankingItemClick: function (event) {
+    const idx = event.currentTarget.dataset.idx
+    const rankingName = rankingMap[idx]
+    this.navigateToDetailSongsPage(rankingName)
+  },
+  navigateToDetailSongsPage: function (rankingName) {
+    wx.navigateTo({
+      url: `/pages/detail-songs/index?ranking=${rankingName}`
+    })
+  },
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    rankingStore.offState('newRanking')
+    // rankingStore.offState('newRanking')
   },
 
   getRankingHandler: function (idx) {
