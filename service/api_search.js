@@ -10,3 +10,9 @@ export function getSearchSuggest(keywords) {
     type: "mobile"
   })
 }
+
+export function getSearchResult(keywords) {
+  return xyRequest.get("/search", {
+    keywords
+  })
+}

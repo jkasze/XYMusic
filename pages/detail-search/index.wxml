@@ -5,6 +5,7 @@
   background="#f7f7f7"
   shape="round"
   bind:change="handleSearchChange"
+  bind:search="handleSearchAction"
 ></van-search>
 
 <!-- 2.热门搜索 -->
@@ -12,7 +13,11 @@
   <area-header title="热门搜索" showRight="{{false}}"></area-header>
   <view class="list">
     <block wx:for="{{hotKeywords}}" wx:key="first">
-      <view class="tag">{{item.first}}</view>
+      <view class="tag" 
+            bindtap="handleKeywordItemClick" 
+            data-keyword="{{item.first}}">
+        {{item.first}}
+      </view>
     </block>
   </view>
 </view>
@@ -30,3 +35,5 @@
     </block>
   </view>
 </view>
+
+<!-- 搜索结果 -->

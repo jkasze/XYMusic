@@ -1,5 +1,9 @@
 // pages/detail-search/index.js
-import { getSearchHot, getSearchSuggest } from '../../service/api_search'
+import {
+  getSearchHot,
+  getSearchResult,
+  getSearchSuggest
+} from '../../service/api_search'
 import debounce from '../../utils/debounce'
 import stringToNodes from '../../utils/string2nodes'
 
@@ -13,6 +17,7 @@ Page({
     hotKeywords: [],
     suggestSongs: [],
     suggestSongsNodes: [],
+    resultSongs: [],
     searchValue: ''
   },
 
@@ -51,5 +56,18 @@ Page({
       }
       this.setData({ suggestSongsNodes })
     })
-  }
+  },
+  handleSearchAction: function () {
+    const searchValue = this.data.searchValue
+    getSearchResult(searchValue).then((res) => {
+      this.setData({ resultSongs: res.result.songs })
+    })
+  },
+  handleKeywordItemClick: function (event) {
+    const keyword = event.currentTarget.dataset.keyword
+
+    this.setData({ searchValue: keyword })
+
+    this.handleSearchAction()
+  },
 })
