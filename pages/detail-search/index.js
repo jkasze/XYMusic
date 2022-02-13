@@ -42,6 +42,7 @@ Page({
     this.setData({ searchValue })
     if (!searchValue.length) {
       this.setData({ suggestSongs: [] })
+      this.setData({ resultSongs: [] })
       return
     }
     debounceGetSearchSuggest(searchValue).then((res) => {
@@ -69,5 +70,5 @@ Page({
     this.setData({ searchValue: keyword })
 
     this.handleSearchAction()
-  },
+  }
 })
