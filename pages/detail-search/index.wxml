@@ -24,7 +24,7 @@
     <block wx:for="{{suggestSongs}}" wx:key="keyword">
       <view class="item" bindtap="handleKeywordItemClick" data-keyword="{{item.keyword}}">
         <image class="icon" mode="widthFix" src="/assets/images/icons/search_icon.png"></image>
-        <text class="text">{{item.keyword}}</text>
+        <!-- <text class="text">{{item.keyword}}</text> -->
         <rich-text nodes="{{suggestSongsNodes[index]}}"></rich-text>
       </view>
     </block>
