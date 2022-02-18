@@ -19,7 +19,6 @@ Page({
   // 网络请求
   getPageData: function (id) {
     getSongDetail(id).then((res) => {
-      // console.log(res)
       this.setData({ currentSong: res.songs[0] })
     })
   },
