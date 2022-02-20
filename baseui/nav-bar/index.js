@@ -12,7 +12,7 @@ Component({
   properties: {
     title: {
       type: String,
-      value: "默认标题"
+      value: '默认标题'
     }
   },
 
@@ -21,13 +21,11 @@ Component({
    */
   data: {
     statusBarHeight: globalData.statusBarHeight,
-    navbarHeight: globalData.navbarHeight
+    navBarHeight: globalData.navBarHeight
   },
 
   /**
    * 组件的方法列表
    */
-  methods: {
-
-  }
+  methods: {}
 })

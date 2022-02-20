@@ -24,7 +24,7 @@ Page({
     const screenHeight = globalData.screenHeight
     const statusBarHeight = globalData.statusBarHeight
     const navBarHeight = globalData.navBarHeight
-    const contentHeight = screenHeight - navBarHeight
+    const contentHeight = screenHeight - navBarHeight - statusBarHeight
     this.setData({ contentHeight })
   },
 
