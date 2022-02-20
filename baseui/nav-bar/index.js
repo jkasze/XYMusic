@@ -1,4 +1,6 @@
 // components/nav-bar/index.js
+const globalData = getApp().globalData
+
 Component({
   /**
    * 组件的属性列表
@@ -18,7 +20,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    statusBarHeight: getApp().globalData.statusBarHeight
+    statusBarHeight: globalData.statusBarHeight,
+    navbarHeight: globalData.navbarHeight
   },
 
   /**

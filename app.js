@@ -10,6 +10,7 @@ App({
   globalData: {
     screenWidth: 0,
     screenHeight: 0,
-    statusBarHeight: 0
+    statusBarHeight: 0,
+    navBarHeight: 44
   }
 })
