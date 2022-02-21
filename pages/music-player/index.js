@@ -1,5 +1,6 @@
 // pages/music-player/index.js
 import { getSongDetail } from '../../service/api_player'
+import { audioContext } from '../../store/index'
 
 Page({
   /**
@@ -8,6 +9,7 @@ Page({
   data: {
     id: 0,
     currentSong: {},
+    duration: 0,
 
     currentPage: 0,
     contentHeight: 0
@@ -28,15 +30,19 @@ Page({
     this.setData({ contentHeight })
 
     // 播放器
-    const audioContext = wx.createInnerAudioContext()
+    audioContext.stop()
     audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
-    audioContext.play()
+    // audioContext.autoplay = true
+
+    audioContext.onCanplay(() => {
+      audioContext.play()
+    })
   },
 
   // 网络请求
   getPageData: function (id) {
     getSongDetail(id).then((res) => {
-      this.setData({ currentSong: res.songs[0] })
+      this.setData({ currentSong: res.songs[0], duration: res.songs[0].dt })
     })
   },
 

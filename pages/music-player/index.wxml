@@ -1,4 +1,6 @@
 <!--pages/music-player/index.wxml-->
+<wxs src="../../utils/format.wxs" module="format"></wxs>
+
 <!-- 1. 背景 -->
 
 <image class="bg-image" mode="aspectFill" src="{{ currentSong.al.picUrl }}"></image>
@@ -19,21 +21,21 @@
         bindchange="handleSwiperChange">
   <swiper-item class="music">
     <view class="album">
-      <image class="image" mode="aspectFit" src="https://p2.music.126.net/aG5zqxkBRfLiV7A8W0iwgA==/109951166702962263.jpg"></image>
+      <image class="image" mode="widthFit" src="{{currentSong.al.picUrl}}"></image>
     </view>
     <view class="info">
-      <view class="title">孤勇者</view>
+      <view class="title">{{currentSong.name}}</view>
       <view class="subtitle">
-        <view class="singer">陈奕迅</view>
-        <view class="alias">专辑：《双城之战》</view>
+        <view class="singer">{{currentSong.ar[0].name}}</view>
+        <view class="alias">专辑：{{currentSong.alia[0]}}</view>
       </view>
     </view>
     <view class="lyric">我是歌词</view>
     <view class="progress">
       <slider class="slider" block-size="{{15}}"></slider>
       <view class="time">
-        <view class="current">01:22</view>
-        <view class="duration">:04:33</view>
+        <view class="current">00:00</view>
+        <view class="duration">{{format.formatDuration(duration)}}</view>
       </view>
     </view>
     <view class="operation">
