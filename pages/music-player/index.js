@@ -1,7 +1,7 @@
 // pages/music-player/index.js
-import { getSongDetail } from '../../service/api_player'
+import { getSongDetail, getSongLyric } from '../../service/api_player'
 import { audioContext } from '../../store/index'
-
+import { parseLyric } from '../../utils/parse-lyric'
 Page({
   /**
    * 页面的初始数据
@@ -35,8 +35,27 @@ Page({
     // 播放器
     audioContext.stop()
     audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
-    // audioContext.autoplay = true
+    audioContext.autoplay = true
 
+    // audioContext的事件监听
+    this.setupAudioContextListener()
+  },
+
+  // ============== 网络请求 ==============
+  getPageData: function (id) {
+    getSongDetail(id).then((res) => {
+      this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
+    })
+
+    getSongLyric(id).then((res) => {
+      const lyricString = res.lrc.lyric
+      const lyrics = parseLyric(lyricString)
+      console.log(lyrics)
+    })
+  },
+
+  // ============== audio监听 ==============
+  setupAudioContextListener: function () {
     audioContext.onCanplay(() => {
       audioContext.play()
     })
@@ -49,15 +68,7 @@ Page({
       }
     })
   },
-
-  // 网络请求
-  getPageData: function (id) {
-    getSongDetail(id).then((res) => {
-      this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
-    })
-  },
-
-  // 事件处理
+  // ============== 事件处理 ==============
   handleSwiperChange: function (event) {
     const current = event.detail.current
     this.setData({ currentPage: current })
@@ -74,7 +85,11 @@ Page({
   handleSliderChanging: function (event) {
     const value = event.detail.value
     const currentTime = (this.data.durationTime * value) / 100
-    this.setData({ isSliderChanging: true, currentTime: currentTime, sliderValue: value })
+    this.setData({
+      isSliderChanging: true,
+      currentTime: currentTime,
+      sliderValue: value
+    })
   },
 
   /**
