@@ -9,10 +9,13 @@ Page({
   data: {
     id: 0,
     currentSong: {},
-    duration: 0,
+    durationTime: 0,
+    currentTime: 0,
 
     currentPage: 0,
-    contentHeight: 0
+    contentHeight: 0,
+    sliderValue: 0,
+    isSliderChanging: false
   },
 
   /**
@@ -37,12 +40,20 @@ Page({
     audioContext.onCanplay(() => {
       audioContext.play()
     })
+
+    audioContext.onTimeUpdate(() => {
+      const currentTime = audioContext.currentTime * 1000
+      if (!this.data.isSliderChanging) {
+        const sliderValue = (currentTime / this.data.durationTime) * 100
+        this.setData({ sliderValue, currentTime })
+      }
+    })
   },
 
   // 网络请求
   getPageData: function (id) {
     getSongDetail(id).then((res) => {
-      this.setData({ currentSong: res.songs[0], duration: res.songs[0].dt })
+      this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
     })
   },
 
@@ -51,6 +62,21 @@ Page({
     const current = event.detail.current
     this.setData({ currentPage: current })
   },
+
+  handleSliderChange: function (event) {
+    const value = event.detail.value
+    const currentTime = (this.data.durationTime * value) / 100
+    audioContext.pause()
+    audioContext.seek(currentTime / 1000)
+    this.setData({ sliderValue: value, isSliderChanging: false })
+  },
+
+  handleSliderChanging: function (event) {
+    const value = event.detail.value
+    const currentTime = (this.data.durationTime * value) / 100
+    this.setData({ isSliderChanging: true, currentTime: currentTime })
+  },
+
   /**
    * 生命周期函数--监听页面卸载
    */

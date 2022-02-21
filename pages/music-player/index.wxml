@@ -32,10 +32,14 @@
     </view>
     <view class="lyric">我是歌词</view>
     <view class="progress">
-      <slider class="slider" block-size="{{15}}"></slider>
+      <slider class="slider" 
+              block-size="{{12}}"
+              value="{{sliderValue}}"
+              bindchange="handleSliderChange"
+              bindchanging="handleSliderChanging"></slider>
       <view class="time">
-        <view class="current">00:00</view>
-        <view class="duration">{{format.formatDuration(duration)}}</view>
+        <view class="current">{{format.formatDuration(currentTime)}}</view>
+        <view class="duration">{{format.formatDuration(durationTime)}}</view>
       </view>
     </view>
     <view class="operation">
