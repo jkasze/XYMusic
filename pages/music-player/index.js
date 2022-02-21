@@ -74,7 +74,7 @@ Page({
   handleSliderChanging: function (event) {
     const value = event.detail.value
     const currentTime = (this.data.durationTime * value) / 100
-    this.setData({ isSliderChanging: true, currentTime: currentTime })
+    this.setData({ isSliderChanging: true, currentTime: currentTime, sliderValue: value })
   },
 
   /**
