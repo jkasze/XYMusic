@@ -30,7 +30,7 @@
         <view class="alias">专辑：{{currentSong.alia[0]}}</view>
       </view>
     </view>
-    <view class="lyric">我是歌词</view>
+    <view class="lyric">{{currentLyricText}}</view>
     <view class="progress">
       <slider class="slider" 
               block-size="{{12}}"

@@ -11,6 +11,9 @@ Page({
     currentSong: {},
     durationTime: 0,
     currentTime: 0,
+    lyricInfos: [],
+    currentLyricIndex: 0,
+    currentLyricText: '',
 
     currentPage: 0,
     contentHeight: 0,
@@ -50,7 +53,7 @@ Page({
     getSongLyric(id).then((res) => {
       const lyricString = res.lrc.lyric
       const lyrics = parseLyric(lyricString)
-      console.log(lyrics)
+      this.setData({ lyricInfos: lyrics })
     })
   },
 
@@ -62,9 +65,27 @@ Page({
 
     audioContext.onTimeUpdate(() => {
       const currentTime = audioContext.currentTime * 1000
+
       if (!this.data.isSliderChanging) {
         const sliderValue = (currentTime / this.data.durationTime) * 100
         this.setData({ sliderValue, currentTime })
+      }
+
+      let i = 0
+      for (; i < this.data.lyricInfos.length; i++) {
+        const lyricInfo = this.data.lyricInfos[i]
+        if (currentTime < lyricInfo.time) {
+          break
+        }
+      }
+      // 设置当前歌词的索引和内容
+      const currentIndex = i - 1
+      if (this.data.currentLyricIndex !== currentIndex) {
+        const currentLyricInfo = this.data.lyricInfos[currentIndex]
+        this.setData({
+          currentLyricIndex: currentIndex,
+          currentLyricText: currentLyricInfo.text
+        })
       }
     })
   },
