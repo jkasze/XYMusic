@@ -26,6 +26,11 @@ Page({
     const navBarHeight = globalData.navBarHeight
     const contentHeight = screenHeight - navBarHeight - statusBarHeight
     this.setData({ contentHeight })
+
+    // 播放器
+    const audioContext = wx.createInnerAudioContext()
+    audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+    audioContext.play()
   },
 
   // 网络请求
