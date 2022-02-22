@@ -1,17 +1,19 @@
 // pages/music-player/index.js
-import { getSongDetail, getSongLyric } from '../../service/api_player'
-import { audioContext } from '../../store/index'
-import { parseLyric } from '../../utils/parse-lyric'
+
+import { audioContext, playerStore } from '../../store/index'
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
     id: 0,
+
     currentSong: {},
     durationTime: 0,
-    currentTime: 0,
     lyricInfos: [],
+
+    currentTime: 0,
     currentLyricIndex: 0,
     currentLyricText: '',
 
@@ -28,7 +30,8 @@ Page({
   onLoad: function (options) {
     const id = options.id
     this.setData({ id })
-    this.getPageData(id)
+    // this.getPageData(id)
+    this.setupPlayerStoreListener()
     const globalData = getApp().globalData
     const screenHeight = globalData.screenHeight
     const statusBarHeight = globalData.statusBarHeight
@@ -46,17 +49,17 @@ Page({
   },
 
   // ============== 网络请求 ==============
-  getPageData: function (id) {
-    getSongDetail(id).then((res) => {
-      this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
-    })
+  // getPageData: function (id) {
+  //   getSongDetail(id).then((res) => {
+  //     this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
+  //   })
 
-    getSongLyric(id).then((res) => {
-      const lyricString = res.lrc.lyric
-      const lyrics = parseLyric(lyricString)
-      this.setData({ lyricInfos: lyrics })
-    })
-  },
+  //   getSongLyric(id).then((res) => {
+  //     const lyricString = res.lrc.lyric
+  //     const lyrics = parseLyric(lyricString)
+  //     this.setData({ lyricInfos: lyrics })
+  //   })
+  // },
 
   // ============== audio监听 ==============
   setupAudioContextListener: function () {
@@ -72,6 +75,7 @@ Page({
         this.setData({ sliderValue, currentTime })
       }
 
+      if (!this.data.lyricInfos.length) return
       let i = 0
       for (; i < this.data.lyricInfos.length; i++) {
         const lyricInfo = this.data.lyricInfos[i]
@@ -112,6 +116,18 @@ Page({
       isSliderChanging: true,
       currentTime: currentTime,
       sliderValue: value
+    })
+  },
+
+  setupPlayerStoreListener: function () {
+    playerStore.onStates(['currentSong', 'durationTime', 'lyricInfos'], ({ 
+        currentSong, 
+        durationTime, 
+        lyricInfos 
+    }) => {
+      if (currentSong) this.setData({ currentSong })
+      if (durationTime) this.setData({ durationTime })
+      if (lyricInfos) this.setData({ lyricInfos })  
     })
   },
 
