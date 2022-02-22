@@ -40,9 +40,9 @@ Page({
     this.setData({ contentHeight })
 
     // 播放器
-    audioContext.stop()
-    audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
-    audioContext.autoplay = true
+    // audioContext.stop()
+    // audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+    // audioContext.autoplay = true
 
     // audioContext的事件监听
     this.setupAudioContextListener()
@@ -119,16 +119,19 @@ Page({
     })
   },
 
+  handleBackBtnClick: function () {
+    wx.navigateBack()
+  },
+
   setupPlayerStoreListener: function () {
-    playerStore.onStates(['currentSong', 'durationTime', 'lyricInfos'], ({ 
-        currentSong, 
-        durationTime, 
-        lyricInfos 
-    }) => {
-      if (currentSong) this.setData({ currentSong })
-      if (durationTime) this.setData({ durationTime })
-      if (lyricInfos) this.setData({ lyricInfos })  
-    })
+    playerStore.onStates(
+      ['currentSong', 'durationTime', 'lyricInfos'],
+      ({ currentSong, durationTime, lyricInfos }) => {
+        if (currentSong) this.setData({ currentSong })
+        if (durationTime) this.setData({ durationTime })
+        if (lyricInfos) this.setData({ lyricInfos })
+      }
+    )
   },
 
   /**

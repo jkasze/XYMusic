@@ -27,6 +27,11 @@ const playerStore = new XYEventStore({
         const lyrics = parseLyric(lyricString)
         ctx.lyricInfos = lyrics
       })
+
+      // 播放对应id的歌曲
+      audioContext.stop()
+      audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+      audioContext.autoplay = true
     }
   }
 })
