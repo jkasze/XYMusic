@@ -1,5 +1,5 @@
 // pages/home-music/index.js
-import { rankingStore, rankingMap } from '../../store/index'
+import { rankingStore, rankingMap, playerStore } from '../../store/index'
 
 import { getBanners, getSongMenu } from '../../service/api_music'
 import queryRect from '../../utils/query-rect'
@@ -67,7 +67,11 @@ Page({
     // 获取图片组件的高度
     throttleQueryRect('.swiper-image').then((res) => {
       const rect = res[0]
-      this.setData({ swiperHeight: rect.height })
+      if (rect) {
+        this.setData({ swiperHeight: rect.height })
+      } else {
+        this.setData({ swiperHeight: 0 })
+      }
     })
   },
 
@@ -84,6 +88,13 @@ Page({
       url: `/pages/detail-songs/index?ranking=${rankingName}&type=rank`
     })
   },
+
+  handleSongItemClick: function(event) {
+    const index = event.currentTarget.dataset.index
+    playerStore.setState('playListSongs', this.data.recommendSongs)
+    playerStore.setState('playListIndex', index)
+  },
+
   /**
    * 生命周期函数--监听页面卸载
    */

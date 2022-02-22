@@ -37,8 +37,9 @@ Page({
   onLoad: function (options) {
     const id = options.id
     this.setData({ id })
-    // this.getPageData(id)
+
     this.setupPlayerStoreListener()
+
     const globalData = getApp().globalData
     const screenHeight = globalData.screenHeight
     const statusBarHeight = globalData.statusBarHeight
@@ -133,12 +134,18 @@ Page({
   handleModeClick: function () {
     let playModeIndex = this.data.playModeIndex + 1
     if (playModeIndex === 3) playModeIndex = 0
-
+    this.setData({playModeIndex, playModeName: playModeNames[playModeIndex]})
     playerStore.setState('playModeIndex', playModeIndex)
   },
 
-  handlePlayBtnClick: function() {
+  handlePlayBtnClick: function () {
     playerStore.dispatch('changeMusicPlayStatusAction', !this.data.isPlaying)
+  },
+  handlePrevBtnClick: function () {
+    playerStore.dispatch('changeNewMusicAction', false)
+  },
+  handleNextBtnClick: function () {
+    playerStore.dispatch('changeNewMusicAction')
   },
 
   // ============== 事件监听 ==============

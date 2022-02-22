@@ -18,15 +18,15 @@ const playerStore = new XYEventStore({
     isPlaying: false,
 
     playModeIndex: 0, // 0:循环播放 1:单曲循环 3:随机播放
-
-
+    playListSongs: [],
+    playListIndex: 0
   },
   actions: {
-    playMusicWithSongIdAction(ctx, { id }) {
-      if (ctx.id === id) {
+    playMusicWithSongIdAction(ctx, { id, isRefresh = false }) {
+      if (ctx.id == id && !isRefresh) {
         this.dispatch('changeMusicPlayStatusAction', true)
         return
-      } 
+      }
       ctx.id = id
 
       // 修改播放的状态
@@ -37,7 +37,6 @@ const playerStore = new XYEventStore({
       ctx.currentTime = 0
       ctx.currentLyricIndex = 0
       ctx.currentLyricText = ''
-
 
       // 请求歌曲详情
       getSongDetail(id).then((res) => {
@@ -85,8 +84,8 @@ const playerStore = new XYEventStore({
         const currentIndex = i - 1
         if (ctx.currentLyricIndex !== currentIndex) {
           const currentLyricInfo = ctx.lyricInfos[currentIndex]
-          ctx.currentLyricIndex= currentIndex
-          ctx.currentLyricText =  currentLyricInfo.text
+          ctx.currentLyricIndex = currentIndex
+          ctx.currentLyricText = currentLyricInfo.text
         }
       })
     },
@@ -98,6 +97,38 @@ const playerStore = new XYEventStore({
       } else {
         audioContext.pause()
       }
+    },
+
+    changeNewMusicAction(ctx, isNext = true) {
+      let index = ctx.playListIndex
+
+      switch (ctx.playModeIndex) {
+        case 0: {
+          index = isNext ? index + 1 : index - 1
+          if (index === -1) index = ctx.playListSongs.length - 1
+          if (index === ctx.playListSongs.length) index = 0
+          break
+        }
+        case 1: {
+          break
+        }
+        case 2:
+          {
+            index = Math.floor(Math.random() * ctx.playListSongs.length)
+            break
+          }
+          defalult: break
+      }
+
+
+      let currentSong = ctx.playListSongs[index]
+      if (!currentSong) {
+        currentSong = ctx.currentSong
+      } else {
+        ctx.playListIndex = index
+      }
+
+      this.dispatch('playMusicWithSongIdAction', { id: currentSong.id, isRefresh: true })
     }
   }
 })
