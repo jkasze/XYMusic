@@ -21,6 +21,8 @@ Page({
 
     playModeIndex: 0,
     playModeName: 'order',
+    isPlaying: false,
+    playingName: 'pause',
 
     currentPage: 0,
     contentHeight: 0,
@@ -135,6 +137,10 @@ Page({
     playerStore.setState('playModeIndex', playModeIndex)
   },
 
+  handlePlayBtnClick: function() {
+    playerStore.dispatch('changeMusicPlayStatusAction')
+  },
+
   // ============== 事件监听 ==============
   setupPlayerStoreListener: function () {
     // 1. 监听currentSong/durationTime/lyricInfos
@@ -170,9 +176,24 @@ Page({
     )
 
     // 3. 监听播放模式相关的数据
-    playerStore.onState('playModeIndex', (index) => {
-      this.setData({ playModeIndex: index, playModeName: playModeNames[index] })
-    })
+    playerStore.onStates(
+      ['playModeIndex', 'isPlaying'],
+      ({ index, isPlaying }) => {
+        if (index) {
+          this.setData({
+            playModeIndex: index,
+            playModeName: playModeNames[index]
+          })
+        }
+
+        if (isPlaying !== undefined) {
+          this.setData({
+            isPlaying,
+            playingName: isPlaying ? 'pause' : 'resume'
+          })
+        }
+      }
+    )
   },
 
   /**

@@ -15,13 +15,18 @@ const playerStore = new XYEventStore({
     currentLyricIndex: 0,
     currentLyricText: '',
 
+    isPlaying: false,
+
     playModeIndex: 0, // 0:循环播放 1:单曲循环 3:随机播放
-    
+
 
   },
   actions: {
     playMusicWithSongIdAction(ctx, { id }) {
       ctx.id = id
+
+      // 修改播放的状态
+      ctx.isPlaying = true
 
       // 请求歌曲详情
       getSongDetail(id).then((res) => {
@@ -73,6 +78,15 @@ const playerStore = new XYEventStore({
           ctx.currentLyricText =  currentLyricInfo.text
         }
       })
+    },
+
+    changeMusicPlayStatusAction(ctx) {
+      ctx.isPlaying = !ctx.isPlaying
+      if (ctx.isPlaying) {
+        audioContext.play()
+      } else {
+        audioContext.pause()
+      }
     }
   }
 })
