@@ -65,10 +65,12 @@ class XYEventBus {
 
     const handlers = this.eventBus[eventName]
     if (handlers && eventCallback) {
+      const newHandlers = [...handlers]
       for (let i = 0; i < handlers.length; i++) {
-        const handler = handlers[i]
+        const handler = newHandlers[i]
         if (handler.eventCallback === eventCallback) {
-          handlers.splice(i, 1)
+          const index = handlers.indexOf(handler)
+          handlers.splice(index, 1)
         }
       }
     }
