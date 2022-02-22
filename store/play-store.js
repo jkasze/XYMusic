@@ -23,10 +23,21 @@ const playerStore = new XYEventStore({
   },
   actions: {
     playMusicWithSongIdAction(ctx, { id }) {
+      if (ctx.id === id) {
+        this.dispatch('changeMusicPlayStatusAction', true)
+        return
+      } 
       ctx.id = id
 
       // 修改播放的状态
       ctx.isPlaying = true
+      ctx.currentSong = {}
+      ctx.durationTime = 0
+      ctx.lyricInfos = []
+      ctx.currentTime = 0
+      ctx.currentLyricIndex = 0
+      ctx.currentLyricText = ''
+
 
       // 请求歌曲详情
       getSongDetail(id).then((res) => {
@@ -80,8 +91,8 @@ const playerStore = new XYEventStore({
       })
     },
 
-    changeMusicPlayStatusAction(ctx) {
-      ctx.isPlaying = !ctx.isPlaying
+    changeMusicPlayStatusAction(ctx, isPlaying = true) {
+      ctx.isPlaying = isPlaying
       if (ctx.isPlaying) {
         audioContext.play()
       } else {
