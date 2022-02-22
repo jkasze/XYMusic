@@ -2,6 +2,8 @@
 
 import { audioContext, playerStore } from '../../store/index'
 
+const playModeNames = ['order', 'repeat', 'random']
+
 Page({
   /**
    * 页面的初始数据
@@ -16,6 +18,9 @@ Page({
     currentTime: 0,
     currentLyricIndex: 0,
     currentLyricText: '',
+
+    playModeIndex: 0,
+    playModeName: 'order',
 
     currentPage: 0,
     contentHeight: 0,
@@ -123,6 +128,13 @@ Page({
     wx.navigateBack()
   },
 
+  handleModeClick: function () {
+    let playModeIndex = this.data.playModeIndex + 1
+    if (playModeIndex === 3) playModeIndex = 0
+
+    playerStore.setState('playModeIndex', playModeIndex)
+  },
+
   // ============== 事件监听 ==============
   setupPlayerStoreListener: function () {
     // 1. 监听currentSong/durationTime/lyricInfos
@@ -143,20 +155,24 @@ Page({
           // 时间变化
           const sliderValue = (currentTime / this.data.durationTime) * 100
           this.setData({ currentTime, sliderValue })
-
-          }
-          // 歌词变化
-          if (currentLyricIndex) {
-            this.setData({
-              currentLyricIndex,
-              lyricScrollTop: currentLyricIndex * 35
-            })
-          }
-          if (currentLyricText) {
-            this.setData({ currentLyricText })
+        }
+        // 歌词变化
+        if (currentLyricIndex) {
+          this.setData({
+            currentLyricIndex,
+            lyricScrollTop: currentLyricIndex * 35
+          })
+        }
+        if (currentLyricText) {
+          this.setData({ currentLyricText })
         }
       }
     )
+
+    // 3. 监听播放模式相关的数据
+    playerStore.onState('playModeIndex', (index) => {
+      this.setData({ playModeIndex: index, playModeName: playModeNames[index] })
+    })
   },
 
   /**

@@ -14,6 +14,10 @@ const playerStore = new XYEventStore({
     currentTime: 0,
     currentLyricIndex: 0,
     currentLyricText: '',
+
+    playModeIndex: 0, // 0:循环播放 1:单曲循环 3:随机播放
+    
+
   },
   actions: {
     playMusicWithSongIdAction(ctx, { id }) {
