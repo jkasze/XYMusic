@@ -2,7 +2,7 @@
 <!-- 搜索框 -->
 <van-search
   disabled
-  backgtound="#fafafa"
+  background="#fafafa"
   shape="round"
   placeholder="搜索您喜欢的歌曲"
   bind:click-input="handleSearchClick"
@@ -12,20 +12,18 @@
 <swiper class="swiper"
         indicator-dots
         autoplay
-        referrer-policy="origin"
         circular
-        style="height: {{swiperHeight}} px;"
+        style="height: {{swiperHeight}}px;"
         >
   <block wx:for="{{banners}}" wx:key="bannerId">
     <swiper-item class="swiper-item">
       <image class="swiper-image" 
-            src="{{item.pic}}" 
-            mode="widthFix"
-            bindload="handleSwiperImageLoaded"></image>
+             src="{{item.pic}}"
+             mode="widthFix"
+             bindload="handleSwiperImageLoaded"></image>
     </swiper-item>
   </block>
 </swiper>
-
 
 <!-- 3.推荐歌曲 -->
 <view class="recommend-song" wx:if="{{recommendSongs.length > 0}}">
@@ -47,7 +45,7 @@
                 wx:if="{{recommendSongMenu.length > 0}}">
 </song-menu-area>
 
-<!-- 巅峰榜 -->
+<!-- 5.巅峰榜 -->
 <view class="ranking">
   <area-header title="巅峰榜" showRight="{{false}}"></area-header>
   <view class="ranking-list">
