@@ -18,7 +18,8 @@ Page({
     currentPage: 0,
     contentHeight: 0,
     sliderValue: 0,
-    isSliderChanging: false
+    isSliderChanging: false,
+    lyricScrollTop: 0
   },
 
   /**
@@ -84,7 +85,8 @@ Page({
         const currentLyricInfo = this.data.lyricInfos[currentIndex]
         this.setData({
           currentLyricIndex: currentIndex,
-          currentLyricText: currentLyricInfo.text
+          currentLyricText: currentLyricInfo.text,
+          lyricScrollTop: currentIndex * 35
         })
       }
     })
