@@ -45,7 +45,8 @@ Page({
     // audioContext.autoplay = true
 
     // audioContext的事件监听
-    this.setupAudioContextListener()
+    // console.log(setupAudioContextListener)
+    // this.setupAudioContextListener()
   },
 
   // ============== 网络请求 ==============
@@ -62,39 +63,39 @@ Page({
   // },
 
   // ============== audio监听 ==============
-  setupAudioContextListener: function () {
-    audioContext.onCanplay(() => {
-      audioContext.play()
-    })
+  // setupAudioContextListener: function () {
+  // audioContext.onCanplay(() => {
+  //   audioContext.play()
+  // })
 
-    audioContext.onTimeUpdate(() => {
-      const currentTime = audioContext.currentTime * 1000
+  // audioContext.onTimeUpdate(() => {
+  //   const currentTime = audioContext.currentTime * 1000
 
-      if (!this.data.isSliderChanging) {
-        const sliderValue = (currentTime / this.data.durationTime) * 100
-        this.setData({ sliderValue, currentTime })
-      }
+  //   if (!this.data.isSliderChanging) {
+  //     const sliderValue = (currentTime / this.data.durationTime) * 100
+  //     this.setData({ sliderValue, currentTime })
+  //   }
 
-      if (!this.data.lyricInfos.length) return
-      let i = 0
-      for (; i < this.data.lyricInfos.length; i++) {
-        const lyricInfo = this.data.lyricInfos[i]
-        if (currentTime < lyricInfo.time) {
-          break
-        }
-      }
-      // 设置当前歌词的索引和内容
-      const currentIndex = i - 1
-      if (this.data.currentLyricIndex !== currentIndex) {
-        const currentLyricInfo = this.data.lyricInfos[currentIndex]
-        this.setData({
-          currentLyricIndex: currentIndex,
-          currentLyricText: currentLyricInfo.text,
-          lyricScrollTop: currentIndex * 35
-        })
-      }
-    })
-  },
+  //   if (!this.data.lyricInfos.length) return
+  //   let i = 0
+  //   for (; i < this.data.lyricInfos.length; i++) {
+  //     const lyricInfo = this.data.lyricInfos[i]
+  //     if (currentTime < lyricInfo.time) {
+  //       break
+  //     }
+  //   }
+  //   // 设置当前歌词的索引和内容
+  //   const currentIndex = i - 1
+  //   if (this.data.currentLyricIndex !== currentIndex) {
+  //     const currentLyricInfo = this.data.lyricInfos[currentIndex]
+  //     this.setData({
+  //       currentLyricIndex: currentIndex,
+  //       currentLyricText: currentLyricInfo.text,
+  //       lyricScrollTop: currentIndex * 35
+  //     })
+  //   }
+  // })
+  // },
   // ============== 事件处理 ==============
   handleSwiperChange: function (event) {
     const current = event.detail.current
@@ -114,8 +115,7 @@ Page({
     const currentTime = (this.data.durationTime * value) / 100
     this.setData({
       isSliderChanging: true,
-      currentTime: currentTime,
-      sliderValue: value
+      currentTime: currentTime
     })
   },
 
@@ -123,13 +123,38 @@ Page({
     wx.navigateBack()
   },
 
+  // ============== 事件监听 ==============
   setupPlayerStoreListener: function () {
+    // 1. 监听currentSong/durationTime/lyricInfos
     playerStore.onStates(
       ['currentSong', 'durationTime', 'lyricInfos'],
       ({ currentSong, durationTime, lyricInfos }) => {
         if (currentSong) this.setData({ currentSong })
         if (durationTime) this.setData({ durationTime })
         if (lyricInfos) this.setData({ lyricInfos })
+      }
+    )
+
+    // 2. 监听currentTime/currentLyricIndex/currentLyricText
+    playerStore.onStates(
+      ['currentTime', 'currentLyricIndex', 'currentLyricText'],
+      ({ currentTime, currentLyricIndex, currentLyricText }) => {
+        if (currentTime && !this.data.isSliderChanging) {
+          // 时间变化
+          const sliderValue = (currentTime / this.data.durationTime) * 100
+          this.setData({ currentTime, sliderValue })
+
+          }
+          // 歌词变化
+          if (currentLyricIndex) {
+            this.setData({
+              currentLyricIndex,
+              lyricScrollTop: currentLyricIndex * 35
+            })
+          }
+          if (currentLyricText) {
+            this.setData({ currentLyricText })
+        }
       }
     )
   },
