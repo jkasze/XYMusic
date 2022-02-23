@@ -17,7 +17,9 @@ Page({
     hotSongMenu: [],
     recommendSongMenu: [],
     recommendSongs: [],
-    rankings: { 0: {}, 2: {}, 3: {} }
+    rankings: { 0: {}, 2: {}, 3: {} },
+
+    currentSong: {}
   },
 
   /**
@@ -31,14 +33,7 @@ Page({
     rankingStore.dispatch('getRankingDataAction')
 
     // 从store获取共享的数据
-    rankingStore.onState('hotRanking', (res) => {
-      if (!res.tracks) return
-      const recommendSongs = res.tracks.slice(0, 6)
-      this.setData({ recommendSongs })
-    })
-    rankingStore.onState('newRanking', this.getRankingHandler(0))
-    rankingStore.onState('originRanking', this.getRankingHandler(2))
-    rankingStore.onState('upRanking', this.getRankingHandler(3))
+    this.setupPlayerStoreListener()
   },
 
   // 网络请求
@@ -89,7 +84,7 @@ Page({
     })
   },
 
-  handleSongItemClick: function(event) {
+  handleSongItemClick: function (event) {
     const index = event.currentTarget.dataset.index
     playerStore.setState('playListSongs', this.data.recommendSongs)
     playerStore.setState('playListIndex', index)
@@ -100,6 +95,28 @@ Page({
    */
   onUnload: function () {
     // rankingStore.offState('newRanking')
+  },
+
+  setupPlayerStoreListener: function () {
+    // 排行榜
+    rankingStore.onState('hotRanking', (res) => {
+      if (!res.tracks) return
+      const recommendSongs = res.tracks.slice(0, 6)
+      this.setData({ recommendSongs })
+    })
+    rankingStore.onState('newRanking', this.getRankingHandler(0))
+    rankingStore.onState('originRanking', this.getRankingHandler(2))
+    rankingStore.onState('upRanking', this.getRankingHandler(3))
+
+    // 播放器监听
+    playerStore.onStates(
+      ['currentSong'],
+      ({ currentSong } = {
+        if(currentSong) {
+          this.setData({ currentSong })
+        }
+      })
+    )
   },
 
   getRankingHandler: function (idx) {
