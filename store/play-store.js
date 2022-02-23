@@ -6,6 +6,7 @@ const audioContext = wx.createInnerAudioContext()
 
 const playerStore = new XYEventStore({
   state: {
+    isFirstPlay: false,
     id: 0,
     currentSong: {},
     durationTime: 0,
@@ -57,7 +58,10 @@ const playerStore = new XYEventStore({
       audioContext.autoplay = true
 
       // 监听audioContext一些事件
-      this.dispatch('setupAudioContextListenerAction')
+      if (!ctx.isFirstPlay) {
+        this.dispatch('setupAudioContextListenerAction')
+        ctx.isFirstPlay = false
+      }
     },
 
     setupAudioContextListenerAction(ctx) {
@@ -87,6 +91,10 @@ const playerStore = new XYEventStore({
           ctx.currentLyricIndex = currentIndex
           ctx.currentLyricText = currentLyricInfo.text
         }
+      })
+
+      audioContext.onEnded(() => {
+        this.dispatch('changeNewMusicAction')
       })
     },
 
