@@ -2,7 +2,7 @@ import { XYEventStore } from '../event_store/index'
 import { getSongDetail, getSongLyric } from '../service/api_player'
 import { parseLyric } from '../utils/parse-lyric'
 
-const audioContext = wx.createInnerAudioContext()
+const audioContext = wx.getBackgroundAudioManager()
 
 const playerStore = new XYEventStore({
   state: {
@@ -43,6 +43,7 @@ const playerStore = new XYEventStore({
       getSongDetail(id).then((res) => {
         ctx.currentSong = res.songs[0]
         ctx.durationTime = res.songs[0].dt
+        audioContext.title = res.songs[0].name
       })
 
       // 请求歌词信息
@@ -55,6 +56,7 @@ const playerStore = new XYEventStore({
       // 播放对应id的歌曲
       audioContext.stop()
       audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+      audioContext.title = id
       audioContext.autoplay = true
 
       // 监听audioContext一些事件
