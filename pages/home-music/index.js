@@ -19,7 +19,9 @@ Page({
     recommendSongs: [],
     rankings: { 0: {}, 2: {}, 3: {} },
 
-    currentSong: {}
+    currentSong: {},
+    isPlaying: false,
+    playAnimState: 'paused',
   },
 
   /**
@@ -90,6 +92,10 @@ Page({
     playerStore.setState('playListIndex', index)
   },
 
+  handlePlayBtnClick: function () {
+    playerStore.dispatch('changeMusicPlayStatusAction', !this.data.isPlaying)
+  },
+
   /**
    * 生命周期函数--监听页面卸载
    */
@@ -110,12 +116,15 @@ Page({
 
     // 播放器监听
     playerStore.onStates(
-      ['currentSong'],
-      ({ currentSong } = {
-        if(currentSong) {
+      ['currentSong', 'isPlaying'],
+      ({ currentSong, isPlaying }) => {
+        if (currentSong) {
           this.setData({ currentSong })
         }
-      })
+        if (isPlaying !== undefined) {
+          this.setData({ isPlaying, playAnimState: isPlaying ? 'running' : 'paused' })
+        }
+      }
     )
   },
 
