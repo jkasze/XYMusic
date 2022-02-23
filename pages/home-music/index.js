@@ -96,6 +96,12 @@ Page({
     playerStore.dispatch('changeMusicPlayStatusAction', !this.data.isPlaying)
   },
 
+  handlePlayBarClick: function() {
+    wx.navigateTo({
+      url: '/pages/music-player/index?id=' + this.data.currentSong.id,
+    })
+  },
+
   /**
    * 生命周期函数--监听页面卸载
    */
