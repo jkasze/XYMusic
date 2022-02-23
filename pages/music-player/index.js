@@ -113,7 +113,7 @@ Page({
   handleSliderChange: function (event) {
     const value = event.detail.value
     const currentTime = (this.data.durationTime * value) / 100
-    audioContext.pause()
+    // audioContext.pause()
     audioContext.seek(currentTime / 1000)
     this.setData({ sliderValue: value, isSliderChanging: false })
   },

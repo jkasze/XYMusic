@@ -98,10 +98,30 @@ const playerStore = new XYEventStore({
       audioContext.onEnded(() => {
         this.dispatch('changeNewMusicAction')
       })
+
+      audioContext.onPlay(() => {
+        ctx.isPlaying = true
+      })
+
+      audioContext.onPause(() => {
+        ctx.isPlaying = false
+      })
+
+      audioContext.onStop(() => {
+        ctx.isPlaying = false
+        ctx.isStoping = true
+      })
     },
 
     changeMusicPlayStatusAction(ctx, isPlaying = true) {
       ctx.isPlaying = isPlaying
+
+      if (ctx.isFirstPlay && ctx.isStoping) {
+        audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
+        audioContext.title = currentSong.name
+        ctx.isStoping = false
+      }
+
       if (ctx.isPlaying) {
         audioContext.play()
       } else {
